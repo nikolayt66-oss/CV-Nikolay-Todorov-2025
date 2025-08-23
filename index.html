@@ -1,194 +1,533 @@
-import React, { useState } from "react";
-import { Mail, Phone, MapPin, Globe, ChevronDown, ChevronUp, Star, Briefcase, GraduationCap, Award, Linkedin, Trophy, Download } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { motion, AnimatePresence } from "framer-motion";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nikolay TODOROV - Web CV</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
 
-const AccordionSection = ({ title, icon: Icon, color, children }: { title: string; icon: any; color: string; children: React.ReactNode }) => {
-  const [open, setOpen] = useState(false);
+    <style>
+        :root {
+            --main-text: #2c3e50; /* Deep Slate Blue */
+            --title-gold: #c0a062; /* Refined Gold */
+            --background: #f8f9fa; /* Light Grey */
+            --bubble-bg: #ffffff; /* White */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--main-text);
+            line-height: 1.6;
+        }
+        .text-gold { color: var(--title-gold); }
+        .border-gold { border-color: var(--title-gold); }
+        .bg-gold { background-color: var(--title-gold); }
+        .hover\:text-gold:hover { color: var(--title-gold); }
 
-  return (
-    <div className="border rounded-xl p-3">
-      <button
-        className={`flex justify-between items-center w-full text-left font-semibold text-base md:text-lg transition-colors duration-200 hover:bg-[#B9975B]/10 ${color}`}
-        onClick={() => setOpen(!open)}
-      >
-        <span className="flex items-center gap-2"><Icon className={`h-4 w-4 ${color}`}/>{title}</span>
-        {open ? <ChevronUp className="h-4 w-4"/> : <ChevronDown className="h-4 w-4"/>}
-      </button>
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="mt-2 overflow-hidden text-sm md:text-base space-y-2"
-          >
-            {children}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-};
+        .animate-fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .expandable-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .expandable-content.expanded {
+            max-height: 1500px;
+        }
+        .contact-card {
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+            pointer-events: none;
+        }
+        .contact-card.visible {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .expand-icon {
+            transition: transform 0.3s ease-in-out;
+        }
+        /* Timeline Styles */
+        .timeline {
+            position: relative;
+            width: 100%;
+            margin: 0 auto;
+            padding: 15px 0;
+        }
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 4px;
+            background: #e0e0e0;
+            top: 10px; /* Aligns with the center of the point */
+            left: 0;
+            z-index: 1;
+        }
+        .timeline-points {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+        .timeline-point {
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 4px solid #e0e0e0;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .timeline-point:hover, .timeline-point.active {
+            border-color: var(--title-gold);
+            transform: scale(1.2);
+        }
+        #timeline-content .content-item {
+            display: none;
+        }
+        #timeline-content .content-item.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        /* Proficiency Bar */
+        .proficiency-bar-bg {
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            height: 8px;
+            width: 100%;
+        }
+        .proficiency-bar {
+            background-color: var(--title-gold);
+            height: 100%;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8 md:p-12 lg:p-24">
 
-export default function CVBusinessCard() {
-  const fullName = "Nikolay TODOROV";
-  const phone = "+41 79 774 08 61";
-  const phoneHref = "+41797740861";
-  const email = "nikolay.todorov@kempinski.com";
-  const address = "Via Mezdi 27, St. Moritz, Switzerland, 7500";
-  const linkedin = "https://www.linkedin.com/in/nikolay-todorov-ba2b1284/";
+    <!-- Main Container -->
+    <div class="max-w-4xl mx-auto bg-white rounded-3xl shadow-2xl p-6 sm:p-10 lg:p-16">
 
-  return (
-    <main className="mx-auto max-w-xl p-4 text-slate-900">
-      <Card className="rounded-2xl shadow-md">
-        <CardContent className="p-6 space-y-4">
-          {/* Header */}
-          <header className="text-center space-y-2">
-            <h1 className="text-2xl font-bold tracking-tight text-[#010F2A]">{fullName}</h1>
-            <p className="text-[#010F2A] text-sm">Food & Beverage Leadership • Luxury Hospitality</p>
-          </header>
+        <!-- Header Section -->
+        <header class="text-center mb-12 animate-fade-in">
+            <h1 class="text-3xl sm:text-5xl font-bold mb-2 pt-8" style="color: var(--main-text);">Nikolay TODOROV</h1>
+            <p class="text-lg text-gray-700 mb-4">Accomplished Food & Beverage Professional</p>
+            
+            <p class="max-w-2xl mx-auto text-sm text-gray-600 mb-6">
+                Seeking a senior Food & Beverage leadership role to leverage extensive experience in revenue growth, team development, and operational excellence within a 5-star luxury hospitality environment.
+            </p>
 
-          {/* Contact */}
-          <div className="grid grid-cols-1 gap-2 text-sm text-center">
-            <div className="flex items-center gap-2 justify-center"><Phone className="h-4 w-4 text-[#010F2A]"/><a href={`tel:${phoneHref}`} className="hover:underline text-[#010F2A]">{phone}</a></div>
-            <div className="flex items-center gap-2 justify-center"><Mail className="h-4 w-4 text-[#010F2A]"/><a href={`mailto:${email}`} className="hover:underline text-[#010F2A]">{email}</a></div>
-            <div className="flex items-center gap-2 justify-center"><MapPin className="h-4 w-4 text-[#010F2A]"/><span className="text-[#010F2A]">{address}</span></div>
-            <div className="flex items-center gap-2 justify-center"><Linkedin className="h-4 w-4 text-[#010F2A]"/><a href={linkedin} target="_blank" className="hover:underline text-[#010F2A]">LinkedIn Profile</a></div>
-          </div>
-
-          {/* Accordion Sections */}
-          <div className="space-y-3">
-            <AccordionSection title="Career Highlights" icon={Trophy} color="text-[#B9975B]">
-              <ul className="list-disc pl-6 space-y-2 text-[#010F2A]">
-                <li><strong>Revenue Leadership</strong> — Managed operations of 7+ outlets at Grand Hotel des Bains Kempinski, generating annual revenues exceeding 12M CHF.</li>
-                <li><strong>Team Development</strong> — Increased staff retention at Kempinski St. Moritz from 35% to 85% in two years through effective leadership programs.</li>
-                <li><strong>Award-Winning Experience</strong> — Led Marco Pierre White Plymouth team to national awards including Best New Opening (2017) and Restaurant of the Year (2018).</li>
-                <li><strong>Innovation</strong> — Successfully launched new dining concepts and contributed to the design and opening of outlets, driving guest satisfaction and profitability.</li>
-              </ul>
-            </AccordionSection>
-
-            <AccordionSection title="Personal Profile" icon={Award} color="text-[#010F2A]">
-              <p>
-                Accomplished Food &amp; Beverage professional with progressive leadership experience in luxury hospitality across Switzerland,
-                Malta, and the UK. Proven success in driving revenue growth, cost control, and guest satisfaction while leading multicultural
-                teams of 50+ staff. Skilled in financial planning, strategic leadership, and delivering innovative dining concepts aligned with
-                brand standards. Focused on achieving operational excellence and exceeding KPIs in Food &amp; Beverage management at 5-star
-                luxury properties.
-              </p>
-            </AccordionSection>
-
-            <AccordionSection title="Key Strengths" icon={Star} color="text-[#B9975B]">
-              <ul className="list-disc pl-6 space-y-2 text-[#010F2A]">
-                <li><strong>Strategic Leadership</strong> — Experienced in managing multi-outlet operations, developing future leaders, and building high-performance teams.</li>
-                <li><strong>Financial Acumen</strong> — Strong budgeting, forecasting, and cost-control; hands-on in P&amp;L and financial planning.</li>
-                <li><strong>Guest-Centric Innovation</strong> — Track record of elevating GSS/GRI scores and introducing concepts that increase revenue.</li>
-                <li><strong>Operational Excellence</strong> — Expert at streamlining operations, improving productivity, and maintaining top service standards.</li>
-              </ul>
-            </AccordionSection>
-
-            <AccordionSection title="Work Experience" icon={Briefcase} color="text-[#010F2A]">
-              <div className="space-y-4 text-[#010F2A]">
-                <div>
-                  <p><strong>Grand Hotel des Bains Kempinski 5*+, St. Moritz, Switzerland</strong></p>
-                  <p className="italic">Assistant Food and Beverage Manager — Jun 2023 – Present</p>
-                  <ul className="list-disc pl-6 space-y-1">
-                    <li><strong>Flexibility & Problem Solving</strong> — Oversaw multi-outlet operations across 7+ venues with annual revenues exceeding 12M CHF in 2024.</li>
-                    <li><strong>Collaboration</strong> — Partnered with outlet managers to optimize operations, improving efficiency and resolving issues in high-pressure situations.</li>
-                    <li><strong>Budgeting & Forecasting</strong> — Actively involved in annual budget planning, forecasting, and cost-control execution.</li>
-                    <li><strong>Leadership Development</strong> — Implemented team strategies that increased staff retention from 35% (2022) to 85% (2024).</li>
-                  </ul>
-                  <p className="italic mt-2">Restaurant Manager — Nov 2022 – Apr 2023</p>
-                  <ul className="list-disc pl-6 space-y-1">
-                    <li><strong>Revenue Growth</strong> — Implemented promotions and dining concepts that boosted outlet revenue.</li>
-                    <li><strong>Operational Efficiency</strong> — Reduced operational costs by optimizing labour management and streamlining processes.</li>
-                    <li><strong>Guest Satisfaction</strong> — Raised GSS by 26% and secured #1 ranking in the region for three consecutive months.</li>
-                  </ul>
-                </div>
-                <div>
-                  <p><strong>Kempinski San Lawrenz 5*, Gozo, Malta</strong></p>
-                  <p className="italic">Assistant Restaurant Manager — Nov 2021 – Oct 2022</p>
-                  <ul className="list-disc pl-6 space-y-1">
-                    <li><strong>Project Management</strong> — Played a key role in the design, organization, and successful opening of a new dining outlet.</li>
-                    <li><strong>Financial Oversight</strong> — Directed daily operations, financial oversight, and inventory control to ensure profitability and efficiency.</li>
-                  </ul>
-                  <p className="italic mt-2">Food and Beverage Supervisor — Aug 2020 – Nov 2021</p>
-                  <ul className="list-disc pl-6 space-y-1">
-                    <li><strong>Restructuring</strong> — Enhanced operations of multiple outlets, achieving higher profitability through restructuring.</li>
-                    <li><strong>Team Culture</strong> — Rebuilt team culture during pandemic recovery, improving staff retention by 35% and service ratings by 3 points.</li>
-                  </ul>
-                </div>
-                <div>
-                  <p><strong>Marco Pierre White, Crowne Plaza Plymouth, United Kingdom</strong></p>
-                  <p className="italic">Assistant Restaurant Manager — Mar 2017 – Jul 2019</p>
-                  <ul className="list-disc pl-6 space-y-1">
-                    <li><strong>Career Progression</strong> — Progressed from Chef de Rang to Assistant Manager; led team to national awards including Best New Opening (2017) and Restaurant of the Year (2018).</li>
-                    <li><strong>Analysis & Reporting</strong> — Produced monthly analyses and reports; ensured departmental efficiency and anticipated management needs.</li>
-                    <li><strong>Training</strong> — Designed and implemented departmental training and induction programs.</li>
-                  </ul>
-                </div>
-              </div>
-            </AccordionSection>
-
-            <AccordionSection title="Education" icon={GraduationCap} color="text-[#B9975B]">
-              <div className="space-y-4 text-[#010F2A]">
-                <div>
-                  <p className="flex justify-between"><strong>Cornell University, USA</strong><span className="text-sm text-slate-600">2024–2025</span></p>
-                  <ul className="list-disc pl-6 space-y-1">
-                    <li>Executive Leadership Certificate – Executive decision-making and high-level leadership. (2025)</li>
-                    <li>Strategic Leadership Certificate – Strategic planning and organizational leadership. (2024)</li>
-                    <li>Financial Management Certificate – Budgeting, financial analysis, cost control. (2024)</li>
-                  </ul>
-                </div>
-                <div>
-                  <p className="flex justify-between"><strong>Glion Institute of Higher Education, Switzerland</strong><span className="text-sm text-slate-600">2019–2021</span></p>
-                  <p>Master of Science in Hospitality, Entrepreneurship and Innovation</p>
-                  <ul className="list-disc pl-6 space-y-1">
-                    <li>Winner of Dedica Anthology Hackathon Competition; Program Ambassador & Start-up Project Leader.</li>
-                    <li>Dissertation: The Impact of Covid-19 on the Luxury Hospitality Industry in Europe.</li>
-                  </ul>
-                </div>
-                <div>
-                  <p className="flex justify-between"><strong>University of Plymouth, United Kingdom</strong><span className="text-sm text-slate-600">2013–2018</span></p>
-                  <p>Bachelor of Hospitality Management</p>
-                  <p className="mt-1">Dissertation: The Role of Using Celebrity Chefs’ Names in the Development of a Hotel Business.</p>
-                </div>
-              </div>
-            </AccordionSection>
-
-            <AccordionSection title="Languages & More" icon={Award} color="text-[#010F2A]">
-              <ul className="list-disc pl-6 space-y-1 text-[#010F2A]">
-                <li>Languages: English — Fluent; Bulgarian — Fluent; Spanish — Fluent; German — Intermediate</li>
-                <li>Systems: Opera, Micros, Brilliant POS, Maitre’D, Clock PMS, EMC, Mirus, Microsoft Office, ChatGPT, Google Gemini</li>
-                <li>Certifications: Certified Professional Mentor; Food Safety L2; Health & Safety L2; Licensing & Social Responsibility; Restaurant & Bar Service Training; GDPR; CPR & First Aid</li>
-                <li>Hobbies: Swimming, skiing, hiking; theatre & musicals; travel</li>
-                <li>Volunteering: Participated in a charity mission to Malawi supporting community development initiatives</li>
-              </ul>
-            </AccordionSection>
-
-            <AccordionSection title="References" icon={Award} color="text-[#B9975B]">
-              <ul className="list-disc pl-6 space-y-2 text-[#010F2A] text-sm">
-                <li><strong>Konstantin Zeuke</strong>, GM Grand Hotel des Bains Kempinski — <a href="mailto:konstantin.zeuke@kempinski.com" className="hover:underline">konstantin.zeuke@kempinski.com</a></li>
-                <li><strong>Paola Abbasciano</strong>, Director of Food & Beverage Grand Hotel des Bains Kempinski</li>
-                <li><strong>Damian Olma</strong>, EAM Grand Resort Bad Ragaz — <a href="mailto:olma.damian@gmail.com" className="hover:underline">olma.damian@gmail.com</a></li>
-              </ul>
-            </AccordionSection>
-          </div>
-
-          {/* Footer */}
-          <footer className="pt-4 mt-4 border-t text-xs text-slate-600 flex flex-col items-center gap-1">
-            <div className="flex items-center gap-1 text-[#010F2A]"><Globe className="h-3 w-3 text-[#010F2A]"/> Interactive CV • Updated 2025</div>
-            <div className="flex gap-2">
-              <a href={`mailto:${email}`}><Button size="sm" variant="outline" className="rounded-2xl border-[#010F2A] text-[#010F2A]"><Mail className="h-3 w-3 mr-1"/>Email</Button></a>
-              <a href={`tel:${phoneHref}`}><Button size="sm" variant="outline" className="rounded-2xl border-[#B9975B] text-[#B9975B]"><Phone className="h-3 w-3 mr-1"/>Call</Button></a>
-              <a href={linkedin} target="_blank"><Button size="sm" variant="outline" className="rounded-2xl border-[#010F2A] text-[#010F2A]"><Linkedin className="h-3 w-3 mr-1"/>LinkedIn</Button></a>
-              <a href="/Nikolay_Todorov_CV.pdf" download><Button size="sm" variant="outline" className="rounded-2xl border-[#B9975B] text-[#B9975B]"><Download className="h-3 w-3 mr-1"/>Download PDF</Button></a>
+            <div class="flex flex-col sm:flex-row justify-center items-center text-sm text-gray-600 space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="tel:+41797740861" class="hover:text-gold transition-colors duration-300 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C6.477 18 2 13.523 2 8V3z" /></svg>
+                    +41797740861
+                </a>
+                <a href="mailto:nikolay.todorov@kempinski.com" class="hover:text-gold transition-colors duration-300 flex items-center">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" /><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" /></svg>
+                    nikolay.todorov@kempinski.com
+                </a>
+                 <a href="https://www.linkedin.com/in/nikolay-todorov-ba2b1284/" target="_blank" class="hover:text-gold transition-colors duration-300 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    LinkedIn Profile
+                </a>
             </div>
-          </footer>
-        </CardContent>
-      </Card>
-    </main>
-  );
-}
+            <hr class="my-6 border-gold border-opacity-50">
+        </header>
+
+        <div class="space-y-6">
+            <!-- Personal Profile -->
+            <section id="personal-profile" class="main-section animate-fade-in">
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-md flex items-center justify-between cursor-pointer hover:shadow-lg transition-shadow duration-300" onclick="toggleMainExpand(this.parentElement)">
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" style="color: var(--main-text);" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>
+                        <h2 class="text-xl sm:text-2xl font-semibold text-gold ml-4">Personal Profile</h2>
+                    </div>
+                    <span class="text-gold text-2xl transform expand-icon">&gt;</span>
+                </div>
+                <div class="expandable-content expanded">
+                    <p class="text-gray-700 p-6 bg-gray-50 rounded-b-2xl">
+                        Accomplished Food & Beverage professional with progressive leadership experience in luxury hospitality across Switzerland, Malta, and the UK. Proven success in driving revenue growth, cost control, and guest satisfaction while leading multicultural teams of 50+ staff. Skilled in financial planning, strategic leadership, and delivering innovative dining concepts aligned with brand standards. Focused on achieving operational excellence and exceeding KPIs in Food & Beverage management at 5-star luxury properties.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Key Skills -->
+            <section class="main-section animate-fade-in">
+                 <div class="bg-gray-50 p-6 rounded-2xl shadow-md flex items-center justify-between cursor-pointer hover:shadow-lg transition-shadow duration-300" onclick="toggleMainExpand(this.parentElement)">
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" style="color: var(--main-text);" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" /></svg>
+                        <h2 class="text-xl sm:text-2xl font-semibold text-gold ml-4">Key Skills</h2>
+                    </div>
+                    <span class="text-gold text-2xl transform rotate-90 expand-icon">&gt;</span>
+                </div>
+                <div class="expandable-content">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 p-6 bg-gray-50 rounded-b-2xl">
+                        <div class="bg-white p-4 rounded-xl shadow flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3 flex-shrink-0" style="color: var(--main-text);" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                            <div>
+                                <h3 class="font-bold text-md mb-1">Strategic Leadership</h3>
+                                <p class="text-sm text-gray-600">Managing multi-outlet operations, developing future leaders, and building high-performance teams.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3 flex-shrink-0" style="color: var(--main-text);" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+                            <div>
+                                <h3 class="font-bold text-md mb-1">Financial Acumen</h3>
+                                <p class="text-sm text-gray-600">Strong budgeting, forecasting, and cost-control skills; hands-on experience in P&L and financial planning.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow flex items-start">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3 flex-shrink-0" style="color: var(--main-text);" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+                            <div>
+                                <h3 class="font-bold text-md mb-1">Guest-Centric Innovation</h3>
+                                <p class="text-sm text-gray-600">Proven track record of elevating GSS/GRI scores and introducing concepts that increased revenue.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3 flex-shrink-0" style="color: var(--main-text);" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <div>
+                                <h3 class="font-bold text-md mb-1">Operational Excellence</h3>
+                                <p class="text-sm text-gray-600">Expertise in streamlining operations, improving productivity, and maintaining top service standards.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Career Highlights -->
+            <section class="main-section animate-fade-in">
+                 <div class="bg-gray-50 p-6 rounded-2xl shadow-md flex items-center justify-between cursor-pointer hover:shadow-lg transition-shadow duration-300" onclick="toggleMainExpand(this.parentElement)">
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" style="color: var(--main-text);" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                        <h2 class="text-xl sm:text-2xl font-semibold text-gold ml-4">Career Highlights</h2>
+                    </div>
+                    <span class="text-gold text-2xl transform rotate-90 expand-icon">&gt;</span>
+                </div>
+                <div class="expandable-content">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 p-6 bg-gray-50 rounded-b-2xl">
+                        <div class="bg-white p-4 rounded-xl shadow flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3 flex-shrink-0" style="color: var(--main-text);" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+                            <div>
+                                <h3 class="font-bold text-md mb-1">Revenue Leadership</h3>
+                                <p class="text-sm text-gray-600">Managed operations of 7+ outlets at Grand Hotel des Bains Kempinski, generating annual revenues exceeding 12M CHF.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3 flex-shrink-0" style="color: var(--main-text);" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.653-.125-1.273-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.653.125-1.273.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                            <div>
+                                <h3 class="font-bold text-md mb-1">Team Development</h3>
+                                <p class="text-sm text-gray-600">Increased staff retention at Kempinski St. Moritz from 35% to 85% in two years through effective leadership programs.</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow flex items-start">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3 flex-shrink-0" style="color: var(--main-text);" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z" /></svg>
+                            <div>
+                                <h3 class="font-bold text-md mb-1">Award-Winning Experience</h3>
+                                <p class="text-sm text-gray-600">Led Marco Pierre White Plymouth team to national awards including Best New Opening (2017) and Restaurant of the Year (2018).</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow flex items-start">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3 flex-shrink-0" style="color: var(--main-text);" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+                            <div>
+                                <h3 class="font-bold text-md mb-1">Innovation</h3>
+                                <p class="text-sm text-gray-600">Successfully launched new dining concepts that drove a 15% increase in guest satisfaction and profitability.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Work Experience -->
+            <section class="main-section animate-fade-in">
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-md flex items-center justify-between cursor-pointer hover:shadow-lg transition-shadow duration-300" onclick="toggleMainExpand(this.parentElement)">
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" style="color: var(--main-text);" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h2zm5-1a1 1 0 00-1-1H9a1 1 0 00-1 1v1h4V5z" clip-rule="evenodd" /></svg>
+                        <h2 class="text-xl sm:text-2xl font-semibold text-gold ml-4">Work Experience</h2>
+                    </div>
+                    <span class="text-gold text-2xl transform rotate-90 expand-icon">&gt;</span>
+                </div>
+                <div class="expandable-content">
+                    <div class="p-6 bg-gray-50 rounded-b-2xl">
+                        <div class="timeline">
+                            <div class="timeline-points">
+                                <div class="flex flex-col items-center w-1/5 text-center">
+                                    <div class="timeline-point active" onclick="showTimelineContent('job1', this, event)"></div>
+                                    <p class="text-xs mt-2 font-semibold">Present</p>
+                                </div>
+                                <div class="flex flex-col items-center w-1/5 text-center">
+                                    <div class="timeline-point" onclick="showTimelineContent('job2', this, event)"></div>
+                                    <p class="text-xs mt-2 font-semibold">2022</p>
+                                </div>
+                                <div class="flex flex-col items-center w-1/5 text-center">
+                                    <div class="timeline-point" onclick="showTimelineContent('job3', this, event)"></div>
+                                    <p class="text-xs mt-2 font-semibold">2021</p>
+                                </div>
+                                <div class="flex flex-col items-center w-1/5 text-center">
+                                    <div class="timeline-point" onclick="showTimelineContent('job4', this, event)"></div>
+                                    <p class="text-xs mt-2 font-semibold">2020</p>
+                                </div>
+                                <div class="flex flex-col items-center w-1/5 text-center">
+                                    <div class="timeline-point" onclick="showTimelineContent('job5', this, event)"></div>
+                                    <p class="text-xs mt-2 font-semibold">2017</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="timeline-content" class="mt-8">
+                            <div id="job1" class="content-item active">
+                                <h3 class="text-xl font-bold">Assistant Food and Beverage Manager</h3>
+                                <p class="text-gray-600 italic">Grand Hotel des Bains Kempinski 5*+, St. Moritz</p>
+                                <ul class="list-disc list-inside space-y-2 text-gray-700 mt-2">
+                                    <li><strong>Flexibility:</strong> Oversaw multi-outlet operations (restaurants, fine dining, cabaret-club, bars, room service), ensuring seamless guest service across 7+ venues.</li>
+                                    <li><strong>Problem Solving:</strong> Partnered with outlet managers to optimize operations, improving efficiency and resolving issues in high-pressure situations.</li>
+                                    <li><strong>Budgeting:</strong> Actively involved in annual budget planning, forecasting, and execution of cost-control strategies.</li>
+                                    <li><strong>Team building:</strong> Implemented team management strategies to increase the staff retention rate from 35% in 2022 to 85% in 2024.</li>
+                                </ul>
+                            </div>
+                            <div id="job2" class="content-item">
+                                <h3 class="text-xl font-bold">Restaurant Manager</h3>
+                                <p class="text-gray-600 italic">Kempinski San Lawrenz 5*, Gozo, Malta</p>
+                                <ul class="list-disc list-inside space-y-2 text-gray-700 mt-2">
+                                    <li><strong>Revenue Generation:</strong> Implemented new promotions and dining concepts that boosted outlet revenue.</li>
+                                    <li><strong>Cost Control:</strong> Reduced operational costs by optimizing labour management and streamlining processes.</li>
+                                    <li><strong>Guest Satisfaction:</strong> Raised GSS by 26% and secured #1 ranking in the region for 3 consecutive months.</li>
+                                </ul>
+                            </div>
+                            <div id="job3" class="content-item">
+                                <h3 class="text-xl font-bold">Assistant Restaurant Manager</h3>
+                                <p class="text-gray-600 italic">Kempinski San Lawrenz 5*, Gozo, Malta</p>
+                                <ul class="list-disc list-inside space-y-2 text-gray-700 mt-2">
+                                    <li><strong>Development:</strong> Played a key role in the design, organization, and successful opening of a new dining outlet.</li>
+                                    <li><strong>Management:</strong> Directed daily operations, financial oversight, and inventory control, ensuring profitability and efficiency.</li>
+                                </ul>
+                            </div>
+                            <div id="job4" class="content-item">
+                                <h3 class="text-xl font-bold">Food and Beverage Supervisor</h3>
+                                <p class="text-gray-600 italic">Kempinski San Lawrenz 5*, Gozo, Malta</p>
+                                <ul class="list-disc list-inside space-y-2 text-gray-700 mt-2">
+                                    <li><strong>Organization:</strong> Enhanced operations of multiple outlets, achieving higher profitability through restructuring.</li>
+                                    <li><strong>Adaptation:</strong> Rebuilt team and morale culture during pandemic recovery, improving staff retention by 35%.</li>
+                                </ul>
+                            </div>
+                            <div id="job5" class="content-item">
+                                <h3 class="text-xl font-bold">Assistant Restaurant Manager</h3>
+                                <p class="text-gray-600 italic">Marco Pierre White, Crowne Plaza Plymouth, UK</p>
+                                <ul class="list-disc list-inside space-y-2 text-gray-700 mt-2">
+                                    <li><strong>Growth:</strong> Developed from the role of Chef de Rang to Assistant Manager.</li>
+                                    <li><strong>Planning:</strong> Analyzed and created reports respecting the monthly deadlines, ensured the efficiency of the department.</li>
+                                    <li><strong>Leadership:</strong> Contributed and led team to win "Best New Opening" (2017) and "Restaurant of the Year" (2018).</li>
+                                    <li><strong>Training:</strong> Designed and implemented departmental training and induction programs.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Languages and More -->
+            <section class="main-section animate-fade-in">
+                 <div class="bg-gray-50 p-6 rounded-2xl shadow-md flex items-center justify-between cursor-pointer hover:shadow-lg transition-shadow duration-300" onclick="toggleMainExpand(this.parentElement)">
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" style="color: var(--main-text);" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v1.5a1.5 1.5 0 01-1.5 1.5h-5A1.5 1.5 0 015 14.5V13H4a1 1 0 01-1-1v-2.667c0-.955.192-1.854.553-2.666.286-.676.657-1.293 1.07-1.84z" clip-rule="evenodd" /></svg>
+                        <h2 class="text-xl sm:text-2xl font-semibold text-gold ml-4">Languages & More</h2>
+                    </div>
+                    <span class="text-gold text-2xl transform rotate-90 expand-icon">&gt;</span>
+                </div>
+                <div class="expandable-content">
+                    <div class="p-6 bg-gray-50 rounded-b-2xl">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                            <div>
+                                <h3 class="font-bold text-md mb-2">Languages</h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <div class="flex justify-between mb-1"><span class="text-sm font-medium">English</span><span class="text-sm text-gray-500">Fluent</span></div>
+                                        <div class="proficiency-bar-bg"><div class="proficiency-bar" style="width: 100%"></div></div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between mb-1"><span class="text-sm font-medium">Bulgarian</span><span class="text-sm text-gray-500">Fluent</span></div>
+                                        <div class="proficiency-bar-bg"><div class="proficiency-bar" style="width: 100%"></div></div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between mb-1"><span class="text-sm font-medium">Spanish</span><span class="text-sm text-gray-500">Fluent</span></div>
+                                        <div class="proficiency-bar-bg"><div class="proficiency-bar" style="width: 100%"></div></div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between mb-1"><span class="text-sm font-medium">German</span><span class="text-sm text-gray-500">Intermediate</span></div>
+                                        <div class="proficiency-bar-bg"><div class="proficiency-bar" style="width: 60%"></div></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-y-4">
+                                <div>
+                                    <h3 class="font-bold text-md mb-2">Computer Skills</h3>
+                                    <p class="text-sm text-gray-600">Opera, Micros, Brilliant POS, Maitre'D, Clock PMS, EMC, Mirus, Microsoft Office, Chat GPT5, Google Gemini.</p>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-md mb-2">Certifications</h3>
+                                    <p class="text-sm text-gray-600">Certified Professional Mentor, Food Safety & Health L2, GDPR, CPR & First Aid.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Education -->
+            <section class="main-section animate-fade-in">
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-md flex items-center justify-between cursor-pointer hover:shadow-lg transition-shadow duration-300" onclick="toggleMainExpand(this.parentElement)">
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" style="color: var(--main-text);" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 14l9-5-9-5-9 5 9 5z" /><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-5.998 12.078 12.078 0 01.665-6.479L12 14z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-5.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222 4 2.222V20M1 12v7a2 2 0 002 2h18a2 2 0 002-2v-7" /></svg>
+                        <h2 class="text-xl sm:text-2xl font-semibold text-gold ml-4">Education</h2>
+                    </div>
+                    <span class="text-gold text-2xl transform rotate-90 expand-icon">&gt;</span>
+                </div>
+                <div class="expandable-content">
+                    <div class="p-6 bg-gray-50 rounded-b-2xl space-y-4">
+                        <div class="bg-white p-6 rounded-2xl shadow">
+                            <h3 class="text-xl font-bold">Cornell University, USA</h3>
+                            <p class="text-gray-600">Executive Leadership Certificate (2025)</p>
+                            <p class="text-gray-600">Strategic Leadership Certificate (2024)</p>
+                            <p class="text-gray-600">Financial Management Certificate (2024)</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow">
+                            <h3 class="text-xl font-bold">Glion Institute of Higher Education, Switzerland</h3>
+                            <p class="text-gray-600">M.S. in Hospitality, Entrepreneurship and Innovation (2021)</p>
+                             <ul class="list-disc list-inside text-sm text-gray-500 mt-2 space-y-1">
+                                <li>Winner of Dedica Anthology Hackathon Competition</li>
+                                <li>Program Ambassador & Start-up Project Leader</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow">
+                            <h3 class="text-xl font-bold">University of Plymouth, United Kingdom</h3>
+                            <p class="text-gray-600">Bachelor of Hospitality Management (2018)</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- References -->
+            <section class="main-section animate-fade-in">
+                <div class="bg-gray-50 p-6 rounded-2xl shadow-md flex items-center justify-between cursor-pointer hover:shadow-lg transition-shadow duration-300" onclick="toggleMainExpand(this.parentElement)">
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" style="color: var(--main-text);" viewBox="0 0 20 20" fill="currentColor"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" /></svg>
+                        <h2 class="text-xl sm:text-2xl font-semibold text-gold ml-4">References</h2>
+                    </div>
+                    <span class="text-gold text-2xl transform rotate-90 expand-icon">&gt;</span>
+                </div>
+                <div class="expandable-content">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 bg-gray-50 rounded-b-2xl">
+                        <div class="bg-white p-6 rounded-2xl shadow text-center flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-bold">Konstantin Zeuke</h3>
+                                <p class="text-sm text-gray-600 mb-2">GM, Grand Hotel des Bains Kempinski</p>
+                            </div>
+                            <a href="mailto:konstantin.zeuke@kempinski.com" class="text-sm text-gray-500 hover:text-gold break-all">konstantin.zeuke@kempinski.com</a>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow text-center flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-bold">Paola Abbasciano</h3>
+                                <p class="text-sm text-gray-600 mb-2">Director of F&B, Grand Hotel des Bains Kempinski</p>
+                            </div>
+                            <a href="mailto:paola.abbasciano@kempinski.com" class="text-sm text-gray-500 hover:text-gold break-all">paola.abbasciano@kempinski.com</a>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow text-center flex flex-col justify-between">
+                            <div>
+                               <h3 class="font-bold">Damian Olma</h3>
+                                <p class="text-sm text-gray-600 mb-2">EAM, Grand Resort Bad Ragaz</p>
+                            </div>
+                            <a href="mailto:olma.damian@gmail.com" class="text-sm text-gray-500 hover:text-gold break-all">olma.damian@gmail.com</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Floating Contact Button -->
+    <div id="contact-button" class="fixed bottom-6 right-6 p-4 bg-gold text-white rounded-full shadow-lg cursor-pointer hover:bg-opacity-80 transition-all duration-300 transform hover:scale-105">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+    </div>
+
+    <!-- Contact Modal/Card -->
+    <div id="contact-card" class="contact-card fixed bottom-20 right-6 p-6 bg-white rounded-2xl shadow-xl border border-gray-200">
+        <h3 class="text-xl font-bold text-gold mb-4">Contact Information</h3>
+        <ul class="space-y-2 text-gray-700">
+            <li><strong>Phone:</strong> +41797740861</li>
+            <li><strong>Email:</strong> nikolay.todorov@kempinski.com</li>
+            <li><strong>Address:</strong> Via Mezdi 27, St. Moritz, Switzerland, 7500</li>
+        </ul>
+        <button onclick="hideContactCard()" class="mt-4 w-full bg-red-500 text-white py-2 px-4 rounded-xl hover:bg-red-600 transition-colors duration-300">Close</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Open the Personal Profile section by default
+            const profileSection = document.getElementById('personal-profile');
+            if (profileSection) {
+                const content = profileSection.querySelector('.expandable-content');
+                const icon = profileSection.querySelector('.expand-icon');
+                content.classList.add('expanded');
+                icon.style.transform = 'rotate(0deg)';
+            }
+            // Set the first timeline item as active by default
+            showTimelineContent('job1', document.querySelector('.timeline-point'));
+        });
+
+        // Toggles main sections (accordion style)
+        function toggleMainExpand(sectionElement) {
+            const content = sectionElement.querySelector('.expandable-content');
+            const icon = sectionElement.querySelector('.expand-icon');
+            const isCurrentlyExpanded = content.classList.contains('expanded');
+
+            // Close all other main sections
+            document.querySelectorAll('.main-section').forEach(sec => {
+                if (sec !== sectionElement) {
+                    sec.querySelector('.expandable-content').classList.remove('expanded');
+                    sec.querySelector('.expand-icon').style.transform = 'rotate(90deg)';
+                }
+            });
+
+            // Toggle the clicked section
+            if (isCurrentlyExpanded) {
+                content.classList.remove('expanded');
+                icon.style.transform = 'rotate(90deg)';
+            } else {
+                content.classList.add('expanded');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+        
+        function showTimelineContent(targetId, clickedElement, event) {
+            if(event) event.stopPropagation();
+            
+            document.querySelectorAll('.timeline-point').forEach(point => point.classList.remove('active'));
+            clickedElement.classList.add('active');
+
+            document.querySelectorAll('#timeline-content .content-item').forEach(item => item.classList.remove('active'));
+            document.getElementById(targetId).classList.add('active');
+        }
+
+        function showContactCard() {
+            document.getElementById('contact-card').classList.add('visible');
+        }
+
+        function hideContactCard() {
+            document.getElementById('contact-card').classList.remove('visible');
+        }
+
+        document.getElementById('contact-button').addEventListener('click', showContactCard);
+    </script>
+
+</body>
+</html>
