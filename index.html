@@ -1,0 +1,194 @@
+import React, { useState } from "react";
+import { Mail, Phone, MapPin, Globe, ChevronDown, ChevronUp, Star, Briefcase, GraduationCap, Award, Linkedin, Trophy, Download } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { motion, AnimatePresence } from "framer-motion";
+
+const AccordionSection = ({ title, icon: Icon, color, children }: { title: string; icon: any; color: string; children: React.ReactNode }) => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="border rounded-xl p-3">
+      <button
+        className={`flex justify-between items-center w-full text-left font-semibold text-base md:text-lg transition-colors duration-200 hover:bg-[#B9975B]/10 ${color}`}
+        onClick={() => setOpen(!open)}
+      >
+        <span className="flex items-center gap-2"><Icon className={`h-4 w-4 ${color}`}/>{title}</span>
+        {open ? <ChevronUp className="h-4 w-4"/> : <ChevronDown className="h-4 w-4"/>}
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="mt-2 overflow-hidden text-sm md:text-base space-y-2"
+          >
+            {children}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+export default function CVBusinessCard() {
+  const fullName = "Nikolay TODOROV";
+  const phone = "+41 79 774 08 61";
+  const phoneHref = "+41797740861";
+  const email = "nikolay.todorov@kempinski.com";
+  const address = "Via Mezdi 27, St. Moritz, Switzerland, 7500";
+  const linkedin = "https://www.linkedin.com/in/nikolay-todorov-ba2b1284/";
+
+  return (
+    <main className="mx-auto max-w-xl p-4 text-slate-900">
+      <Card className="rounded-2xl shadow-md">
+        <CardContent className="p-6 space-y-4">
+          {/* Header */}
+          <header className="text-center space-y-2">
+            <h1 className="text-2xl font-bold tracking-tight text-[#010F2A]">{fullName}</h1>
+            <p className="text-[#010F2A] text-sm">Food & Beverage Leadership • Luxury Hospitality</p>
+          </header>
+
+          {/* Contact */}
+          <div className="grid grid-cols-1 gap-2 text-sm text-center">
+            <div className="flex items-center gap-2 justify-center"><Phone className="h-4 w-4 text-[#010F2A]"/><a href={`tel:${phoneHref}`} className="hover:underline text-[#010F2A]">{phone}</a></div>
+            <div className="flex items-center gap-2 justify-center"><Mail className="h-4 w-4 text-[#010F2A]"/><a href={`mailto:${email}`} className="hover:underline text-[#010F2A]">{email}</a></div>
+            <div className="flex items-center gap-2 justify-center"><MapPin className="h-4 w-4 text-[#010F2A]"/><span className="text-[#010F2A]">{address}</span></div>
+            <div className="flex items-center gap-2 justify-center"><Linkedin className="h-4 w-4 text-[#010F2A]"/><a href={linkedin} target="_blank" className="hover:underline text-[#010F2A]">LinkedIn Profile</a></div>
+          </div>
+
+          {/* Accordion Sections */}
+          <div className="space-y-3">
+            <AccordionSection title="Career Highlights" icon={Trophy} color="text-[#B9975B]">
+              <ul className="list-disc pl-6 space-y-2 text-[#010F2A]">
+                <li><strong>Revenue Leadership</strong> — Managed operations of 7+ outlets at Grand Hotel des Bains Kempinski, generating annual revenues exceeding 12M CHF.</li>
+                <li><strong>Team Development</strong> — Increased staff retention at Kempinski St. Moritz from 35% to 85% in two years through effective leadership programs.</li>
+                <li><strong>Award-Winning Experience</strong> — Led Marco Pierre White Plymouth team to national awards including Best New Opening (2017) and Restaurant of the Year (2018).</li>
+                <li><strong>Innovation</strong> — Successfully launched new dining concepts and contributed to the design and opening of outlets, driving guest satisfaction and profitability.</li>
+              </ul>
+            </AccordionSection>
+
+            <AccordionSection title="Personal Profile" icon={Award} color="text-[#010F2A]">
+              <p>
+                Accomplished Food &amp; Beverage professional with progressive leadership experience in luxury hospitality across Switzerland,
+                Malta, and the UK. Proven success in driving revenue growth, cost control, and guest satisfaction while leading multicultural
+                teams of 50+ staff. Skilled in financial planning, strategic leadership, and delivering innovative dining concepts aligned with
+                brand standards. Focused on achieving operational excellence and exceeding KPIs in Food &amp; Beverage management at 5-star
+                luxury properties.
+              </p>
+            </AccordionSection>
+
+            <AccordionSection title="Key Strengths" icon={Star} color="text-[#B9975B]">
+              <ul className="list-disc pl-6 space-y-2 text-[#010F2A]">
+                <li><strong>Strategic Leadership</strong> — Experienced in managing multi-outlet operations, developing future leaders, and building high-performance teams.</li>
+                <li><strong>Financial Acumen</strong> — Strong budgeting, forecasting, and cost-control; hands-on in P&amp;L and financial planning.</li>
+                <li><strong>Guest-Centric Innovation</strong> — Track record of elevating GSS/GRI scores and introducing concepts that increase revenue.</li>
+                <li><strong>Operational Excellence</strong> — Expert at streamlining operations, improving productivity, and maintaining top service standards.</li>
+              </ul>
+            </AccordionSection>
+
+            <AccordionSection title="Work Experience" icon={Briefcase} color="text-[#010F2A]">
+              <div className="space-y-4 text-[#010F2A]">
+                <div>
+                  <p><strong>Grand Hotel des Bains Kempinski 5*+, St. Moritz, Switzerland</strong></p>
+                  <p className="italic">Assistant Food and Beverage Manager — Jun 2023 – Present</p>
+                  <ul className="list-disc pl-6 space-y-1">
+                    <li><strong>Flexibility & Problem Solving</strong> — Oversaw multi-outlet operations across 7+ venues with annual revenues exceeding 12M CHF in 2024.</li>
+                    <li><strong>Collaboration</strong> — Partnered with outlet managers to optimize operations, improving efficiency and resolving issues in high-pressure situations.</li>
+                    <li><strong>Budgeting & Forecasting</strong> — Actively involved in annual budget planning, forecasting, and cost-control execution.</li>
+                    <li><strong>Leadership Development</strong> — Implemented team strategies that increased staff retention from 35% (2022) to 85% (2024).</li>
+                  </ul>
+                  <p className="italic mt-2">Restaurant Manager — Nov 2022 – Apr 2023</p>
+                  <ul className="list-disc pl-6 space-y-1">
+                    <li><strong>Revenue Growth</strong> — Implemented promotions and dining concepts that boosted outlet revenue.</li>
+                    <li><strong>Operational Efficiency</strong> — Reduced operational costs by optimizing labour management and streamlining processes.</li>
+                    <li><strong>Guest Satisfaction</strong> — Raised GSS by 26% and secured #1 ranking in the region for three consecutive months.</li>
+                  </ul>
+                </div>
+                <div>
+                  <p><strong>Kempinski San Lawrenz 5*, Gozo, Malta</strong></p>
+                  <p className="italic">Assistant Restaurant Manager — Nov 2021 – Oct 2022</p>
+                  <ul className="list-disc pl-6 space-y-1">
+                    <li><strong>Project Management</strong> — Played a key role in the design, organization, and successful opening of a new dining outlet.</li>
+                    <li><strong>Financial Oversight</strong> — Directed daily operations, financial oversight, and inventory control to ensure profitability and efficiency.</li>
+                  </ul>
+                  <p className="italic mt-2">Food and Beverage Supervisor — Aug 2020 – Nov 2021</p>
+                  <ul className="list-disc pl-6 space-y-1">
+                    <li><strong>Restructuring</strong> — Enhanced operations of multiple outlets, achieving higher profitability through restructuring.</li>
+                    <li><strong>Team Culture</strong> — Rebuilt team culture during pandemic recovery, improving staff retention by 35% and service ratings by 3 points.</li>
+                  </ul>
+                </div>
+                <div>
+                  <p><strong>Marco Pierre White, Crowne Plaza Plymouth, United Kingdom</strong></p>
+                  <p className="italic">Assistant Restaurant Manager — Mar 2017 – Jul 2019</p>
+                  <ul className="list-disc pl-6 space-y-1">
+                    <li><strong>Career Progression</strong> — Progressed from Chef de Rang to Assistant Manager; led team to national awards including Best New Opening (2017) and Restaurant of the Year (2018).</li>
+                    <li><strong>Analysis & Reporting</strong> — Produced monthly analyses and reports; ensured departmental efficiency and anticipated management needs.</li>
+                    <li><strong>Training</strong> — Designed and implemented departmental training and induction programs.</li>
+                  </ul>
+                </div>
+              </div>
+            </AccordionSection>
+
+            <AccordionSection title="Education" icon={GraduationCap} color="text-[#B9975B]">
+              <div className="space-y-4 text-[#010F2A]">
+                <div>
+                  <p className="flex justify-between"><strong>Cornell University, USA</strong><span className="text-sm text-slate-600">2024–2025</span></p>
+                  <ul className="list-disc pl-6 space-y-1">
+                    <li>Executive Leadership Certificate – Executive decision-making and high-level leadership. (2025)</li>
+                    <li>Strategic Leadership Certificate – Strategic planning and organizational leadership. (2024)</li>
+                    <li>Financial Management Certificate – Budgeting, financial analysis, cost control. (2024)</li>
+                  </ul>
+                </div>
+                <div>
+                  <p className="flex justify-between"><strong>Glion Institute of Higher Education, Switzerland</strong><span className="text-sm text-slate-600">2019–2021</span></p>
+                  <p>Master of Science in Hospitality, Entrepreneurship and Innovation</p>
+                  <ul className="list-disc pl-6 space-y-1">
+                    <li>Winner of Dedica Anthology Hackathon Competition; Program Ambassador & Start-up Project Leader.</li>
+                    <li>Dissertation: The Impact of Covid-19 on the Luxury Hospitality Industry in Europe.</li>
+                  </ul>
+                </div>
+                <div>
+                  <p className="flex justify-between"><strong>University of Plymouth, United Kingdom</strong><span className="text-sm text-slate-600">2013–2018</span></p>
+                  <p>Bachelor of Hospitality Management</p>
+                  <p className="mt-1">Dissertation: The Role of Using Celebrity Chefs’ Names in the Development of a Hotel Business.</p>
+                </div>
+              </div>
+            </AccordionSection>
+
+            <AccordionSection title="Languages & More" icon={Award} color="text-[#010F2A]">
+              <ul className="list-disc pl-6 space-y-1 text-[#010F2A]">
+                <li>Languages: English — Fluent; Bulgarian — Fluent; Spanish — Fluent; German — Intermediate</li>
+                <li>Systems: Opera, Micros, Brilliant POS, Maitre’D, Clock PMS, EMC, Mirus, Microsoft Office, ChatGPT, Google Gemini</li>
+                <li>Certifications: Certified Professional Mentor; Food Safety L2; Health & Safety L2; Licensing & Social Responsibility; Restaurant & Bar Service Training; GDPR; CPR & First Aid</li>
+                <li>Hobbies: Swimming, skiing, hiking; theatre & musicals; travel</li>
+                <li>Volunteering: Participated in a charity mission to Malawi supporting community development initiatives</li>
+              </ul>
+            </AccordionSection>
+
+            <AccordionSection title="References" icon={Award} color="text-[#B9975B]">
+              <ul className="list-disc pl-6 space-y-2 text-[#010F2A] text-sm">
+                <li><strong>Konstantin Zeuke</strong>, GM Grand Hotel des Bains Kempinski — <a href="mailto:konstantin.zeuke@kempinski.com" className="hover:underline">konstantin.zeuke@kempinski.com</a></li>
+                <li><strong>Paola Abbasciano</strong>, Director of Food & Beverage Grand Hotel des Bains Kempinski</li>
+                <li><strong>Damian Olma</strong>, EAM Grand Resort Bad Ragaz — <a href="mailto:olma.damian@gmail.com" className="hover:underline">olma.damian@gmail.com</a></li>
+              </ul>
+            </AccordionSection>
+          </div>
+
+          {/* Footer */}
+          <footer className="pt-4 mt-4 border-t text-xs text-slate-600 flex flex-col items-center gap-1">
+            <div className="flex items-center gap-1 text-[#010F2A]"><Globe className="h-3 w-3 text-[#010F2A]"/> Interactive CV • Updated 2025</div>
+            <div className="flex gap-2">
+              <a href={`mailto:${email}`}><Button size="sm" variant="outline" className="rounded-2xl border-[#010F2A] text-[#010F2A]"><Mail className="h-3 w-3 mr-1"/>Email</Button></a>
+              <a href={`tel:${phoneHref}`}><Button size="sm" variant="outline" className="rounded-2xl border-[#B9975B] text-[#B9975B]"><Phone className="h-3 w-3 mr-1"/>Call</Button></a>
+              <a href={linkedin} target="_blank"><Button size="sm" variant="outline" className="rounded-2xl border-[#010F2A] text-[#010F2A]"><Linkedin className="h-3 w-3 mr-1"/>LinkedIn</Button></a>
+              <a href="/Nikolay_Todorov_CV.pdf" download><Button size="sm" variant="outline" className="rounded-2xl border-[#B9975B] text-[#B9975B]"><Download className="h-3 w-3 mr-1"/>Download PDF</Button></a>
+            </div>
+          </footer>
+        </CardContent>
+      </Card>
+    </main>
+  );
+}
