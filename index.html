@@ -122,8 +122,9 @@
 
         <!-- Header Section -->
         <header class="text-center mb-12 animate-fade-in">
-            <h1 class="text-3xl sm:text-5xl font-bold mb-2 pt-8" style="color: var(--main-text);">Nikolay TODOROV</h1>
-            <p class="text-lg text-gray-700 mb-4">Accomplished Food & Beverage Professional</p>
+            <img src="https://i.imgur.com/BpwmEN8.jpeg" alt="Professional Headshot of Nikolay Todorov" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md object-cover" onerror="this.onerror=null;this.src='https://placehold.co/128x128/EFEFEF/AAAAAA?text=Photo';">
+            <h1 class="text-3xl sm:text-5xl font-bold mb-2" style="color: var(--main-text);">Nikolay TODOROV</h1>
+            <p class="text-lg text-gold mb-4">Accomplished Food & Beverage Professional</p>
             
             <p class="max-w-2xl mx-auto text-sm text-gray-600 mb-6">
                 Seeking a senior Food & Beverage leadership role to leverage extensive experience in revenue growth, team development, and operational excellence within a 5-star luxury hospitality environment.
@@ -143,6 +144,12 @@
                     LinkedIn Profile
                 </a>
             </div>
+            <div class="mt-6">
+                <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Introduction%20with%20Nikolay%20Todorov&details=A%20brief%2030-minute%20chat%20to%20discuss%20my%20qualifications.&location=Video%20Call&add=nikolay.todorov@kempinski.com" target="_blank" class="bg-slate-700 text-white py-2 px-6 rounded-full hover:bg-slate-800 transition-colors duration-300 inline-flex items-center text-sm font-semibold">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                    Schedule an Introduction
+                </a>
+            </div>
             <hr class="my-6 border-gold border-opacity-50">
         </header>
 
@@ -154,9 +161,9 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" style="color: var(--main-text);" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" /></svg>
                         <h2 class="text-xl sm:text-2xl font-semibold text-gold ml-4">Personal Profile</h2>
                     </div>
-                    <span class="text-gold text-2xl transform expand-icon">&gt;</span>
+                    <span class="text-gold text-2xl transform rotate-90 expand-icon">&gt;</span>
                 </div>
-                <div class="expandable-content expanded">
+                <div class="expandable-content">
                     <p class="text-gray-700 p-6 bg-gray-50 rounded-b-2xl">
                         Accomplished Food & Beverage professional with progressive leadership experience in luxury hospitality across Switzerland, Malta, and the UK. Proven success in driving revenue growth, cost control, and guest satisfaction while leading multicultural teams of 50+ staff. Skilled in financial planning, strategic leadership, and delivering innovative dining concepts aligned with brand standards. Focused on achieving operational excellence and exceeding KPIs in Food & Beverage management at 5-star luxury properties.
                     </p>
@@ -472,14 +479,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Open the Personal Profile section by default
-            const profileSection = document.getElementById('personal-profile');
-            if (profileSection) {
-                const content = profileSection.querySelector('.expandable-content');
-                const icon = profileSection.querySelector('.expand-icon');
-                content.classList.add('expanded');
-                icon.style.transform = 'rotate(0deg)';
-            }
             // Set the first timeline item as active by default
             showTimelineContent('job1', document.querySelector('.timeline-point'));
         });
@@ -512,7 +511,7 @@
             if(event) event.stopPropagation();
             
             document.querySelectorAll('.timeline-point').forEach(point => point.classList.remove('active'));
-            clickedElement.parentElement.querySelector('.timeline-point').classList.add('active');
+            clickedElement.classList.add('active');
 
             document.querySelectorAll('#timeline-content .content-item').forEach(item => item.classList.remove('active'));
             document.getElementById(targetId).classList.add('active');
