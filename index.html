@@ -297,7 +297,7 @@
                             </div>
                             <div id="job2" class="content-item">
                                 <h3 class="text-xl font-bold">Restaurant Manager</h3>
-                                <p class="text-gray-600 italic">Kempinski San Lawrenz 5*, Gozo, Malta</p>
+                                <p class="text-gray-600 italic">Grand Hotel des Bains Kempinski 5*+, St. Moritz</p>
                                 <ul class="list-disc list-inside space-y-2 text-gray-700 mt-2">
                                     <li><strong>Revenue Generation:</strong> Implemented new promotions and dining concepts that boosted outlet revenue.</li>
                                     <li><strong>Cost Control:</strong> Reduced operational costs by optimizing labour management and streamlining processes.</li>
@@ -359,12 +359,12 @@
                                         <div class="proficiency-bar-bg"><div class="proficiency-bar" style="width: 100%"></div></div>
                                     </div>
                                     <div>
-                                        <div class="flex justify-between mb-1"><span class="text-sm font-medium">Spanish</span><span class="text-sm text-gray-500">Fluent</span></div>
-                                        <div class="proficiency-bar-bg"><div class="proficiency-bar" style="width: 100%"></div></div>
+                                        <div class="flex justify-between mb-1"><span class="text-sm font-medium">Spanish</span><span class="text-sm text-gray-500">Proficient</span></div>
+                                        <div class="proficiency-bar-bg"><div class="proficiency-bar" style="width: 90%"></div></div>
                                     </div>
                                     <div>
-                                        <div class="flex justify-between mb-1"><span class="text-sm font-medium">German</span><span class="text-sm text-gray-500">Intermediate</span></div>
-                                        <div class="proficiency-bar-bg"><div class="proficiency-bar" style="width: 60%"></div></div>
+                                        <div class="flex justify-between mb-1"><span class="text-sm font-medium">German</span><span class="text-sm text-gray-500">Basic</span></div>
+                                        <div class="proficiency-bar-bg"><div class="proficiency-bar" style="width: 30%"></div></div>
                                     </div>
                                 </div>
                             </div>
@@ -512,7 +512,7 @@
             if(event) event.stopPropagation();
             
             document.querySelectorAll('.timeline-point').forEach(point => point.classList.remove('active'));
-            clickedElement.classList.add('active');
+            clickedElement.parentElement.querySelector('.timeline-point').classList.add('active');
 
             document.querySelectorAll('#timeline-content .content-item').forEach(item => item.classList.remove('active'));
             document.getElementById(targetId).classList.add('active');
