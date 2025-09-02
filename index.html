@@ -229,7 +229,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-3 flex-shrink-0" style="color: var(--main-text);" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.653-.125-1.273-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.653.125-1.273.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                             <div>
                                 <h3 class="font-bold text-md mb-1">Team Development</h3>
-                                <p class="text-sm text-gray-600">Increased staff retention at Kempinski St. Moritz from 35% to 85% in two years through effective leadership programs.</p>
+                                <p class="text-sm text-gray-600">Increased staff retention at Grand Hotel des Bains Kempinski from 35% to 85% in two years through effective leadership programs.</p>
                             </div>
                         </div>
                         <div class="bg-white p-4 rounded-xl shadow flex items-start">
@@ -470,22 +470,17 @@
 
     <!-- Floating Contact Button -->
     <div id="contact-button" class="fixed bottom-6 right-6 p-4 bg-gold text-white rounded-full shadow-lg cursor-pointer hover:bg-opacity-80 transition-all duration-300 transform hover:scale-105">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+        </svg>
     </div>
 
     <!-- Contact Modal/Card -->
     <div id="contact-card" class="contact-card fixed bottom-20 right-6 p-6 bg-white rounded-2xl shadow-xl border border-gray-200 w-64">
-        <h3 class="text-xl font-bold text-gold mb-4">Contact Information</h3>
-        <ul class="space-y-2 text-gray-700 text-sm">
-            <li><strong>Phone:</strong> +41797740861</li>
-            <li><strong>Email:</strong> nikolay.todorov@kempinski.com</li>
-            <li><strong>Address:</strong> Via Mezdi 27, St. Moritz, CH</li>
-        </ul>
-        <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Interview%20with%20Nikolay%20Todorov&details=A%20brief%2030-minute%20chat%20to%20discuss%20my%20qualifications.&location=Video%20Call&add=nikolay.todorov@kempinski.com" target="_blank" class="mt-4 w-full bg-slate-700 text-white py-2 px-4 rounded-xl hover:bg-slate-800 transition-colors duration-300 flex items-center justify-center text-sm font-semibold">
+        <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Interview%20with%20Nikolay%20Todorov&details=A%20brief%2030-minute%20chat%20to%20discuss%20my%20qualifications.&location=Video%20Call&add=nikolay.todorov@kempinski.com" target="_blank" class="w-full bg-slate-700 text-white py-2 px-4 rounded-xl hover:bg-slate-800 transition-colors duration-300 flex items-center justify-center text-sm font-semibold">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
             Schedule an Interview
         </a>
-        <button onclick="hideContactCard()" class="mt-2 w-full bg-gold text-white py-2 px-4 rounded-xl hover:bg-opacity-80 transition-colors duration-300 text-sm font-semibold">Close</button>
     </div>
 
     <script>
@@ -528,15 +523,17 @@
             document.getElementById(targetId).classList.add('active');
         }
 
-        function showContactCard() {
-            document.getElementById('contact-card').classList.add('visible');
-        }
+        const contactButton = document.getElementById('contact-button');
+        const contactCard = document.getElementById('contact-card');
 
-        function hideContactCard() {
-            document.getElementById('contact-card').classList.remove('visible');
-        }
+        contactButton.addEventListener('click', function(event) {
+            event.stopPropagation();
+            contactCard.classList.toggle('visible');
+        });
 
-        document.getElementById('contact-button').addEventListener('click', showContactCard);
+        contactCard.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
     </script>
 
 </body>
