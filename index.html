@@ -8,6 +8,7 @@
 <meta property="og:title" content="Nikolay Todorov — Food &amp; Beverage Executive">
 <meta property="og:description" content="Interactive executive CV — luxury hospitality leadership across 5 countries.">
 <meta name="theme-color" content="#010F2A">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23010F2A'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='28' font-weight='700' fill='%23B9975B' text-anchor='middle'%3ENT%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -21,14 +22,39 @@
     --gold-30:rgba(185,151,91,0.30);
     --gold-40:rgba(185,151,91,0.40);
     --gold-50:rgba(185,151,91,0.50);
+    --page-bg-start:#eeece7;
+    --page-bg-end:#f4f3ef;
+    --card-bg:#ffffff;
+    --text-color:var(--navy);
+    --border-soft:#e9e7e1;
+    --muted-text:#556;
   }
+  html[data-theme="dark"]{
+    --navy:#FAF8F2;
+    --gold:#D4B57C;
+    --gold-10:rgba(212,181,124,0.12);
+    --gold-15:rgba(212,181,124,0.18);
+    --gold-20:rgba(212,181,124,0.22);
+    --gold-30:rgba(212,181,124,0.32);
+    --gold-40:rgba(212,181,124,0.42);
+    --gold-50:rgba(212,181,124,0.52);
+    --page-bg-start:#050b1c;
+    --page-bg-end:#0a1330;
+    --card-bg:#0f1c3d;
+    --text-color:#FAF8F2;
+    --border-soft:#233150;
+    --muted-text:#a9b3c9;
+  }
+  html[data-theme="dark"] body{color:var(--text-color);}
+  html[data-theme="dark"] .edu-logo{background:#fff;}
   *{box-sizing:border-box;}
   body{
     margin:0;
     font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    background:linear-gradient(180deg,#eeece7 0%,#f4f3ef 100%);
+    background:linear-gradient(180deg,var(--page-bg-start) 0%,var(--page-bg-end) 100%);
     color:var(--navy);
     -webkit-font-smoothing:antialiased;
+    transition:background 0.4s ease;
   }
   main{
     max-width:640px;
@@ -37,9 +63,10 @@
     scroll-behavior:smooth;
   }
   .card{
-    background:#fff;
+    background:var(--card-bg);
     border-radius:20px;
     box-shadow:0 1px 2px rgba(1,15,42,0.04), 0 20px 48px -12px rgba(1,15,42,0.16);
+    transition:background 0.4s ease;
     overflow:hidden;
     position:relative;
     animation:cardIn 0.7s cubic-bezier(0.16,1,0.3,1) both;
@@ -124,7 +151,7 @@
     background:var(--gold-20);
   }
   .kpi .metric{font-size:15px;font-weight:700;color:var(--gold);font-family:'Playfair Display',Georgia,serif;}
-  .kpi .label{font-size:10px;line-height:1.2;margin-top:3px;color:#334;}
+  .kpi .label{font-size:10px;line-height:1.2;margin-top:3px;color:var(--muted-text);}
 
   /* Career Journey timeline */
   .journey{
@@ -173,7 +200,7 @@
   .journey-dot{
     width:34px;height:34px;
     border-radius:50%;
-    background:#fff;
+    background:var(--card-bg);
     border:2px solid var(--gold);
     display:flex;align-items:center;justify-content:center;
     font-size:15px;
@@ -197,7 +224,7 @@
   .journey-node.current .journey-year{color:var(--gold);}
   .journey-role{
     font-size:9px;
-    color:#667;
+    color:var(--muted-text);
     text-align:center;
     max-width:60px;
     line-height:1.2;
@@ -318,12 +345,12 @@
     font-size:13px;
     font-weight:500;
     font-family:inherit;
-    background:#fff;
+    background:var(--card-bg);
     cursor:pointer;
     transition:transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s cubic-bezier(0.16,1,0.3,1), background 0.25s, color 0.25s, border-color 0.25s;
   }
   .comp-card:hover{transform:translateY(-3px);box-shadow:0 6px 14px -4px rgba(1,15,42,0.15);background:var(--gold-10);}
-  .comp-card.active{background:var(--gold);color:#fff;border-color:var(--gold);box-shadow:0 6px 16px -4px rgba(185,151,91,0.5);}
+  .comp-card.active{background:var(--gold);color:var(--card-bg);border-color:var(--gold);box-shadow:0 6px 16px -4px rgba(185,151,91,0.5);}
   .comp-detail{
     background:var(--gold-15);
     border:1px solid var(--gold-30);
@@ -336,7 +363,39 @@
 
   /* International experience */
   .intl-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:14px;}
-  .intl-grid div{border:1px solid var(--gold-30);border-radius:12px;padding:8px;text-align:center;}
+  .intl-card{
+    position:relative;
+    border:1px solid var(--gold-30);
+    border-radius:12px;
+    padding:10px 8px;
+    text-align:center;
+    overflow:hidden;
+    cursor:default;
+    transition:border-color 0.25s, box-shadow 0.25s;
+  }
+  .intl-card:hover{border-color:var(--gold);box-shadow:0 6px 14px -6px rgba(185,151,91,0.4);}
+  .intl-card .intl-flag{
+    display:block;
+    transition:opacity 0.25s, transform 0.25s;
+  }
+  .intl-card .intl-hotel{
+    display:block;
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:6px 8px;
+    font-size:11px;
+    font-weight:600;
+    color:var(--gold);
+    background:var(--card-bg);
+    opacity:0;
+    transform:translateY(6px);
+    transition:opacity 0.25s, transform 0.25s;
+  }
+  .intl-card:hover .intl-flag{opacity:0;transform:translateY(-6px);}
+  .intl-card:hover .intl-hotel{opacity:1;transform:translateY(0);}
   .intl-grid .full{grid-column:span 2;}
 
   /* Education cards */
@@ -362,7 +421,7 @@
   }
   .edu-school{font-weight:600;margin:0;}
   .edu-degree{margin:2px 0 0;font-size:14px;}
-  .edu-dates{font-size:13px;color:#555;white-space:nowrap;}
+  .edu-dates{font-size:13px;color:var(--muted-text);white-space:nowrap;}
   .edu-toggle{
     margin-top:8px;
     background:none;
@@ -408,12 +467,12 @@
     border:1px solid var(--navy);
     color:var(--navy);
     text-decoration:none;
-    background:#fff;
+    background:var(--card-bg);
     transition:background 0.25s, transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s cubic-bezier(0.16,1,0.3,1);
   }
-  .btn:hover{background:var(--navy);color:#fff;transform:translateY(-2px);box-shadow:0 8px 16px -6px rgba(1,15,42,0.35);}
+  .btn:hover{background:var(--navy);color:var(--card-bg);transform:translateY(-2px);box-shadow:0 8px 16px -6px rgba(1,15,42,0.35);}
   .btn.gold{border-color:var(--gold);color:var(--gold);}
-  .btn.gold:hover{background:var(--gold);color:#fff;box-shadow:0 8px 16px -6px rgba(185,151,91,0.5);}
+  .btn.gold:hover{background:var(--gold);color:var(--card-bg);box-shadow:0 8px 16px -6px rgba(185,151,91,0.5);}
 
   @media (max-width:420px){
     .kpi .label{font-size:9px;}
@@ -429,6 +488,45 @@
     transition:width 0.1s ease-out;
   }
 
+  .util-toggles{
+    position:fixed;
+    top:14px;
+    right:14px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    z-index:99;
+  }
+  .util-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height:34px;
+    padding:0 12px;
+    border-radius:999px;
+    border:1px solid var(--gold-40);
+    background:var(--card-bg);
+    color:var(--navy);
+    font-size:12px;
+    font-weight:600;
+    cursor:pointer;
+    box-shadow:0 4px 12px -4px rgba(1,15,42,0.25);
+    transition:transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s, background 0.3s, color 0.3s;
+    white-space:nowrap;
+  }
+  #themeBtn{
+    width:34px;
+    padding:0;
+    font-size:15px;
+  }
+  .util-btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px -6px rgba(185,151,91,0.45);}
+  .util-btn.active{background:var(--gold);color:var(--card-bg);border-color:var(--gold);}
+  @media (max-width:420px){
+    .util-toggles{top:8px;right:8px;}
+    .util-btn{font-size:10.5px;height:28px;padding:0 8px;}
+    #themeBtn{width:28px;font-size:13px;}
+  }
+
   @media (prefers-reduced-motion: reduce){
     *, *::before, *::after{
       animation-duration:0.001ms !important;
@@ -440,6 +538,7 @@
 
   @media print{
     #scrollProgress{display:none;}
+    .util-toggles{display:none;}
     body{background:#fff;}
     main{max-width:100%;padding:0;}
     .card{box-shadow:none;border:none;}
@@ -472,6 +571,10 @@
 </head>
 <body>
 <div id="scrollProgress"></div>
+<div class="util-toggles">
+  <button class="util-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle dark mode" aria-label="Toggle dark mode">🌙</button>
+  <button class="util-btn" id="recruiterBtn" onclick="toggleRecruiterMode()" title="Recruiter Mode — expand key sections">Recruiter Mode</button>
+</div>
 <main>
   <div class="card">
     <div class="card-content">
@@ -673,11 +776,11 @@
           </button>
           <div class="section-body">
             <div class="intl-grid">
-              <div>🇨🇭 Switzerland</div>
-              <div>🇨🇿 Czech Republic</div>
-              <div>🇨🇬 Republic of Congo</div>
-              <div>🇲🇹 Malta</div>
-              <div class="full">🇬🇧 United Kingdom</div>
+              <div class="intl-card"><span class="intl-flag">🇨🇭 Switzerland</span><span class="intl-hotel">Grand Hotel des Bains Kempinski, St. Moritz</span></div>
+              <div class="intl-card"><span class="intl-flag">🇨🇿 Czech Republic</span><span class="intl-hotel">The Augustine Hotel, Prague</span></div>
+              <div class="intl-card"><span class="intl-flag">🇨🇬 Republic of Congo</span><span class="intl-hotel">Kempinski Hotel Brazzaville</span></div>
+              <div class="intl-card"><span class="intl-flag">🇲🇹 Malta</span><span class="intl-hotel">Kempinski San Lawrenz, Gozo</span></div>
+              <div class="intl-card full"><span class="intl-flag">🇬🇧 United Kingdom</span><span class="intl-hotel">Marco Pierre White, Crowne Plaza Plymouth</span></div>
             </div>
           </div>
         </div>
@@ -830,6 +933,51 @@
         btn.classList.remove('copied');
       }, 1500);
     }).catch(() => {});
+  }
+
+  // Dark / Light mode toggle
+  function applyTheme(theme){
+    document.documentElement.setAttribute('data-theme', theme);
+    const btn = document.getElementById('themeBtn');
+    btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+  }
+  function toggleTheme(){
+    const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    const next = current === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    try { localStorage.setItem('cvTheme', next); } catch(e){}
+  }
+  (function initTheme(){
+    let saved = null;
+    try { saved = localStorage.getItem('cvTheme'); } catch(e){}
+    if (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      saved = 'dark';
+    }
+    applyTheme(saved === 'dark' ? 'dark' : 'light');
+  })();
+
+  // Recruiter Mode — auto-expand the sections a recruiter scans first
+  let recruiterModeOn = false;
+  function toggleRecruiterMode(){
+    recruiterModeOn = !recruiterModeOn;
+    const focusIds = ['career-highlights', 'current-position', 'work-experience', 'references'];
+    const btn = document.getElementById('recruiterBtn');
+    if (recruiterModeOn){
+      document.querySelectorAll('.sections .section').forEach(sec => {
+        sec.classList.add('revealed');
+        if (focusIds.includes(sec.id)) {
+          sec.classList.add('open');
+        } else {
+          sec.classList.remove('open');
+        }
+      });
+      btn.classList.add('active');
+      btn.textContent = 'Show All';
+      document.getElementById('career-highlights').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      btn.classList.remove('active');
+      btn.textContent = 'Recruiter Mode';
+    }
   }
 
   function toggleSection(headerEl){
