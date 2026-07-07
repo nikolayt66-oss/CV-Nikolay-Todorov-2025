@@ -251,10 +251,11 @@
     text-overflow:ellipsis;
   }
   @keyframes flashHighlight{
-    0%{box-shadow:0 0 0 0 rgba(185,151,91,0.6);background:var(--gold-15);}
-    100%{box-shadow:0 0 0 0 rgba(185,151,91,0);background:transparent;}
+    0%{background:var(--gold-15);}
+    70%{background:var(--gold-10);}
+    100%{background:transparent;}
   }
-  .flash{animation:flashHighlight 1.4s ease-out;border-radius:10px;}
+  .flash{animation:flashHighlight 1.8s ease-out;border-radius:10px;}
   @media (max-width:420px){
     .journey-role{max-width:44px;font-size:8.5px;}
     .journey-dot{width:30px;height:30px;font-size:13px;}
@@ -1107,7 +1108,7 @@
     setTimeout(() => {
       targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
       targetEl.classList.add('flash');
-      setTimeout(() => targetEl.classList.remove('flash'), 1400);
+      setTimeout(() => targetEl.classList.remove('flash'), 1800);
     }, 80);
   }
 </script>
