@@ -250,12 +250,18 @@
     overflow:hidden;
     text-overflow:ellipsis;
   }
-  @keyframes flashHighlight{
-    0%{background:var(--gold-15);}
-    70%{background:var(--gold-10);}
-    100%{background:transparent;}
+  @keyframes popIn{
+    0%{transform:scale(1);}
+    45%{transform:scale(1.025);}
+    100%{transform:scale(1);}
   }
-  .flash{animation:flashHighlight 1.8s ease-out;border-radius:10px;}
+  .flash{
+    animation:popIn 0.45s cubic-bezier(0.34,1.56,0.64,1);
+    background:var(--gold-15);
+    box-shadow:0 8px 20px -8px rgba(185,151,91,0.4);
+    border-radius:10px;
+    transition:background 0.7s ease, box-shadow 0.7s ease;
+  }
   @media (max-width:420px){
     .journey-role{max-width:44px;font-size:8.5px;}
     .journey-dot{width:30px;height:30px;font-size:13px;}
@@ -1097,7 +1103,22 @@
   }, { threshold: 0.12 });
   document.querySelectorAll('.sections .section').forEach(el => revealObserver.observe(el));
 
-  // Career Journey navigation — jump to and open the linked role
+  // Career Journey navigation — jump to and open the linked role, then hold
+  // a gentle highlight until the visitor scrolls away from it
+  let flashTarget = null;
+  let flashScrollHandler = null;
+
+  function clearFlash(){
+    if (flashScrollHandler){
+      window.removeEventListener('scroll', flashScrollHandler);
+      flashScrollHandler = null;
+    }
+    if (flashTarget){
+      flashTarget.classList.remove('flash');
+      flashTarget = null;
+    }
+  }
+
   function goToRole(targetId){
     const targetEl = document.getElementById(targetId);
     if (!targetEl) return;
@@ -1105,10 +1126,17 @@
     if (section){
       section.classList.add('open', 'revealed');
     }
+    clearFlash();
     setTimeout(() => {
       targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
       targetEl.classList.add('flash');
-      setTimeout(() => targetEl.classList.remove('flash'), 1800);
+      flashTarget = targetEl;
+      // Wait for the smooth auto-scroll to settle before listening for the
+      // visitor's own next scroll, so it doesn't clear itself immediately
+      setTimeout(() => {
+        flashScrollHandler = () => clearFlash();
+        window.addEventListener('scroll', flashScrollHandler, { once: true, passive: true });
+      }, 900);
     }, 80);
   }
 </script>
